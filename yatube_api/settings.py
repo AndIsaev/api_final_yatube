@@ -1,5 +1,5 @@
 import os
-
+from datetime import timedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -90,4 +90,14 @@ REST_FRAMEWORK = {
         'DEFAULT_PERMISSION_CLASSES': [
             'rest_framework.permissions.IsAuthenticated',
         ],
+        'DEFAULT_AUTHENTICATION_CLASSES': [
+            'rest_framework_simplejwt.authentication.JWTAuthentication',
+        ],
     }
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(weeks=52),
+    'REFRESH_TOKEN_LIFETIME': timedelta(weeks=52),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
