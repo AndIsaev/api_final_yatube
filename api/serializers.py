@@ -1,29 +1,28 @@
-from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from .models import Post, Comment, Group, Follow, User
+from .models import Post, Comment, Group, User, Follow
 
 
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
 
     class Meta:
-        fields = ('id', 'text', 'author', 'pub_date')
+        fields = '__all__'
         model = Post
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = '__all__'
+        model = Group
 
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
 
     class Meta:
-        fields = ('id', 'author', 'text', 'post', 'pub_date', 'created')
+        fields = '__all__'
         model = Comment
-
-
-class GroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        fields = ('id', 'title')
-        model = Group
 
 
 class FollowSerializer(serializers.ModelSerializer):
@@ -35,8 +34,9 @@ class FollowSerializer(serializers.ModelSerializer):
     following = serializers.SlugRelatedField(
         queryset=User.objects.all(),
         slug_field='username',
+
     )
 
     class Meta:
-        fields = ('user', 'following')
+        fields = '__all__'
         model = Follow

@@ -1,14 +1,14 @@
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
 from rest_framework.filters import SearchFilter
-from rest_framework.generics import get_object_or_404
-from .models import Post, Comment, Group, Follow, User
-from .serializers import PostSerializer, CommentSerializer, GroupSerializer, FollowSerializer
+from .models import Post, Group, Comment, Follow
+from .serializers import PostSerializer, GroupSerializer, CommentSerializer, FollowSerializer
+from rest_framework import viewsets, generics
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
-from rest_framework.permissions import  IsAuthenticatedOrReadOnly
 
 
 class PostViewSet(viewsets.ModelViewSet):
+    """Create, get, update posts"""
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly]
@@ -24,7 +24,15 @@ class PostViewSet(viewsets.ModelViewSet):
         return queryset
 
 
+class GroupList(generics.ListCreateAPIView):
+    """Create and get groups"""
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    permission_classes = [IsOwnerOrReadOnly]
+
+
 class CommentViewSet(viewsets.ModelViewSet):
+    """Create, get, update comments"""
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly]
@@ -37,13 +45,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         return post.comments.all()
 
 
-class GroupViewSet(viewsets.ModelViewSet):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    permission_classes = [IsOwnerOrReadOnly]
-
-
-class FollowViewSet(viewsets.ModelViewSet):
+class FollowList(generics.ListCreateAPIView):
+    """Follow the user"""
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, ]
