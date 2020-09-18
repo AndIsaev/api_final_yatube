@@ -9,7 +9,8 @@ from rest_framework_simplejwt.views import (
 
 router = DefaultRouter()
 router.register(r'posts', PostViewSet, basename='posts')
-router.register(r'posts/(?P<post_id>[0-9]+)/comments', CommentViewSet, basename='comments')
+router.register(r'posts/(?P<post_id>[0-9]+)/comments',
+                CommentViewSet, basename='comments')
 router.register(r'group', GroupList, basename='group')
 router.register(r'follow', FollowList, basename='follow')
 
