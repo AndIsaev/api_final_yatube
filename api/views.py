@@ -12,6 +12,7 @@ from .serializers import (
 from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
+from rest_framework import mixins
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -26,8 +27,9 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
 
-class GroupList(ViewSetMixin, generics.ListCreateAPIView):
-    """Create and get groups"""
+class GroupViewSet(mixins.CreateModelMixin,
+                   mixins.ListModelMixin,
+                   viewsets.GenericViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [IsOwnerOrReadOnly]
@@ -46,7 +48,9 @@ class CommentViewSet(viewsets.ModelViewSet):
         return post.comments.all()
 
 
-class FollowList(ViewSetMixin, generics.ListCreateAPIView):
+class FollowViewSet(mixins.CreateModelMixin,
+                    mixins.ListModelMixin,
+                    viewsets.GenericViewSet):
     """Follow the user"""
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
