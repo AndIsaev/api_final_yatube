@@ -5,6 +5,6 @@
 Документация  на локальной машине:
 http://localhost:8000/redoc/
 
-GET http://localhost:8000/post/ - получение всех записей
+GET http://localhost:8000/posts/ - получение всех записей
 
 POST http://localhost:8000/api/v1/token/ - передав поля username и password. API вернет JWT-токен
