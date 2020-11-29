@@ -4,9 +4,9 @@
 Реализована аутентификация по JWT-токену.
 
 Стек технологий:
-Python
-Django
-Django REST Framework
+- Python
+- Django
+- Django REST Framework
 
 Чтобы развернуть проект локально:
 
